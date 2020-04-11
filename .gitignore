@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Next.js generated files
+.next/*
+
+# ZEIT Now generated files
+.now/*
