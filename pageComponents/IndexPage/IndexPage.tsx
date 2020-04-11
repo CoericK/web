@@ -1,3 +1,4 @@
+import { Button } from "@blueprintjs/core";
 import * as React from "react";
 import css from "./IndexPage.module.css";
 import useAuthentication from "../../hooks/useAuthentication";
@@ -13,11 +14,17 @@ export default function IndexPage({}: Props) {
 
       <p>
         {isLoading ? (
-          <button disabled>Loading...</button>
+          <Button icon="log-in" loading>
+            Sign in
+          </Button>
         ) : user ? (
-          <button onClick={signOut}>Sign out</button>
+          <Button icon="log-in" onClick={signOut}>
+            Sign out
+          </Button>
         ) : (
-          <button onClick={signIn}>Sign in</button>
+          <Button icon="log-out" onClick={signIn}>
+            Sign in
+          </Button>
         )}
       </p>
     </div>
