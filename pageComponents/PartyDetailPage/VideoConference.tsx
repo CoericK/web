@@ -3,11 +3,16 @@ import css from "./VideoConference.module.css";
 
 interface Props extends React.Attributes {
   jitsiRoomName: string;
+  onParticipantsChange?: (participants: number) => void;
   className?: string;
   style?: React.CSSProperties;
 }
 
-export default function VideoConference({ jitsiRoomName, ...props }: Props) {
+export default function VideoConference({
+  jitsiRoomName,
+  onParticipantsChange = () => {},
+  ...props
+}: Props) {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -37,6 +42,18 @@ export default function VideoConference({ jitsiRoomName, ...props }: Props) {
 
     jitsi.executeCommand("displayName", "New Nickname");
     jitsi.executeCommand("subject", " ");
+
+    jitsi.addEventListener("videoConferenceJoined", () => {
+      onParticipantsChange(jitsi.getNumberOfParticipants());
+    });
+
+    jitsi.addEventListener("participantJoined", () => {
+      onParticipantsChange(jitsi.getNumberOfParticipants());
+    });
+
+    jitsi.addEventListener("participantLeft", () => {
+      onParticipantsChange(jitsi.getNumberOfParticipants());
+    });
   }, []);
 
   return <div className={css.root} ref={containerRef} {...props}></div>;
