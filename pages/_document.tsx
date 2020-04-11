@@ -7,6 +7,11 @@ export default class extends Document {
       <Html>
         <Head>
           <script src="https://meet.jit.si/external_api.js" />
+
+          <link
+            href="https://fonts.googleapis.com/css2?family=Playfair&family=Rubik&display=swap"
+            rel="stylesheet"
+          />
         </Head>
 
         <body>
