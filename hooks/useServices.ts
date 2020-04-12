@@ -1,16 +1,14 @@
 import * as React from "react";
-import createParty from "../services/createParty";
-import getMyAnonymousUser from "../services/getMyAnonymousUser";
-import getPartyById from "../services/getPartyById";
-import issueAnonymousUser from "../services/issueAnonymousUser";
-import onPartyChange from "../services/onPartyChange";
+import { createCreateParty } from "../services/createParty";
+import { createGetMyAnonymousUser } from "../services/getMyAnonymousUser";
+import { createGetPartyById } from "../services/getPartyById";
+import { createOnPartyChange } from "../services/onPartyChange";
 
 interface Services {
-  createParty: typeof createParty;
-  getMyAnonymousUser: typeof getMyAnonymousUser;
-  getPartyById: typeof getPartyById;
-  issueAnonymousUser: typeof issueAnonymousUser;
-  onPartyChange: typeof onPartyChange;
+  createParty: ReturnType<typeof createCreateParty>;
+  getMyAnonymousUser: ReturnType<typeof createGetMyAnonymousUser>;
+  getPartyById: ReturnType<typeof createGetPartyById>;
+  onPartyChange: ReturnType<typeof createOnPartyChange>;
 }
 
 export default function useServices() {

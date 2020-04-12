@@ -1,32 +1,39 @@
-import AnonymousUser from "../models/AnonymousUser";
 import * as React from "react";
-import useServices from "./useServices";
+import AuthenticationToken from "../models/AuthenticationToken";
+// import { createGetMyAnonymousUser } from "../services/getMyAnonymousUser";
+import issueAnonymousUserToken from "../services/issueAnonymousUserToken";
 
-export default function useAuthentication(): {
-  user: AnonymousUser | null;
-  isLoading: boolean;
-} {
-  const { getMyAnonymousUser, issueAnonymousUser } = useServices();
-  const [user, setUser] = React.useState<AnonymousUser | null>(null);
+export default function useAuthentication() {
+  const [token, setToken] = React.useState<AuthenticationToken | null>(null);
   const [isLoading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     (async () => {
-      let user = await getMyAnonymousUser();
+      let token = loadAuthenticationToken();
 
-      if (!user) {
-        await issueAnonymousUser();
+      if (!token) {
+        token = await issueAnonymousUserToken();
 
-        user = await getMyAnonymousUser();
+        saveAuthenticationToken(token);
       }
 
-      setUser(user);
+      // const user = await createGetMyAnonymousUser({ token: token! })();
+
+      setToken(token);
       setLoading(false);
     })();
   }, []);
 
   return {
-    user,
+    token,
     isLoading,
   };
+}
+
+function loadAuthenticationToken(): AuthenticationToken | null {
+  return globalThis.localStorage.getItem("wefocus_authentication_token") as any;
+}
+
+function saveAuthenticationToken(token: AuthenticationToken): void {
+  globalThis.localStorage.setItem("wefocus_authentication_token", token);
 }

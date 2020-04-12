@@ -1,8 +1,28 @@
 import AnonymousUser from "../models/AnonymousUser";
+import AuthenticationToken from "../models/AuthenticationToken";
 
-export default async function getMyAnonymousUser(): Promise<AnonymousUser> {
-  const response = await fetch(`${process.env.API_ORIGIN}/rest-auth/user`);
-  const json = await response.json();
+export function createGetMyAnonymousUser({
+  token,
+}: {
+  token?: AuthenticationToken;
+}) {
+  if (!token) {
+    return () => Promise.reject(new Error("No authentication token provided."));
+  }
 
-  return { name: `${json.first_name} ${json.last_name}` };
+  async function getMyAnonymousUser(): Promise<AnonymousUser | null> {
+    const response = await fetch(`${process.env.API_ORIGIN}/rest-auth/user/`, {
+      headers: { authorization: token! },
+    });
+
+    if (response.status < 200 || response.status >= 300) {
+      return null;
+    }
+
+    const json = await response.json();
+
+    return { name: `${json.first_name} ${json.last_name}` };
+  }
+
+  return getMyAnonymousUser;
 }

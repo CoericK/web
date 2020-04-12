@@ -13,7 +13,6 @@ interface Props extends React.Attributes {
   session?: PomodoroSession;
   loading?: boolean;
   onRestartButtonClick?: () => void;
-  onBreakButtonClick?: () => void;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -22,7 +21,6 @@ export default function PomodoroTimer({
   session,
   loading = false,
   onRestartButtonClick,
-  onBreakButtonClick,
   ...props
 }: Props) {
   const forceRerender = useForceRerender();
@@ -45,11 +43,6 @@ export default function PomodoroTimer({
                 icon="predictive-analysis"
                 onClick={() => {}}
                 text="Restart focus session"
-              />
-              <Menu.Item
-                icon="glass"
-                onClick={() => {}}
-                text="Have a break right now"
               />
             </Menu>
           }

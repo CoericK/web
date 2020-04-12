@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import useAuthentication from "../../hooks/useAuthentication";
+import useUser from "../../hooks/useUser";
 
 interface Props extends React.Attributes {
   jitsiRoomName: string;
@@ -14,9 +14,19 @@ export default function VideoConference({
   onParticipantsChange = () => {},
   ...props
 }: Props) {
-  const { user } = useAuthentication();
+  const { user } = useUser();
   const [jitsi, setJitsi] = React.useState<any>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const listener = () => {
+      console.log("bye bye");
+    };
+
+    globalThis.addEventListener("unload", listener);
+
+    return () => globalThis.removeEventListener("unload", listener);
+  }, []);
 
   React.useEffect(() => {
     const jitsi = new (globalThis as any).JitsiMeetExternalAPI("meet.jit.si", {
