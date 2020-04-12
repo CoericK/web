@@ -4,8 +4,8 @@ import IndexPage from "../pageComponents/IndexPage";
 export default () => (
   <>
     <Head>
-      <title>Create Next App</title>
-      <link rel="icon" href="/favicon.ico" />
+      <title>WeFocus</title>
+      <meta property="og:title" content="WeFocus" />
     </Head>
 
     <IndexPage />

@@ -8,8 +8,8 @@ export default () => {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>WeFocus</title>
+        <meta property="og:title" content="WeFocus" />
       </Head>
 
       <PartyDetailPage partyId={router.query.partyId as any} />
