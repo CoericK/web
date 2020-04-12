@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import useAuthentication from "../../hooks/useAuthentication";
 
 interface Props extends React.Attributes {
   jitsiRoomName: string;
@@ -13,6 +14,8 @@ export default function VideoConference({
   onParticipantsChange = () => {},
   ...props
 }: Props) {
+  const { user } = useAuthentication();
+  const [jitsi, setJitsi] = React.useState<any>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -34,13 +37,15 @@ export default function VideoConference({
           "settings",
         ],
         SETTINGS_SECTIONS: ["devices"],
+        DISABLE_FOCUS_INDICATOR: true,
+        DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
         CONNECTION_INDICATOR_DISABLED: true,
         VIDEO_QUALITY_LABEL_DISABLED: true,
         DISABLE_PRESENCE_STATUS: false,
       },
     });
 
-    jitsi.executeCommand("displayName", "New Nickname");
+    jitsi.executeCommand("displayName", user?.name ?? "No Name");
     jitsi.executeCommand("subject", " ");
 
     jitsi.addEventListener("videoConferenceJoined", () => {
@@ -54,7 +59,15 @@ export default function VideoConference({
     jitsi.addEventListener("participantLeft", () => {
       onParticipantsChange(jitsi.getNumberOfParticipants());
     });
+
+    setJitsi(jitsi);
   }, []);
+
+  React.useEffect(() => {
+    if (!jitsi) return;
+
+    jitsi.executeCommand("displayName", user?.name ?? "No Name");
+  }, [jitsi, user]);
 
   return <Root ref={containerRef} {...props}></Root>;
 }

@@ -1,20 +1,38 @@
-import { AnchorButton } from "@blueprintjs/core";
-import Link from "next/link";
+import { Button } from "@blueprintjs/core";
 import * as React from "react";
 import styled from "styled-components";
+import useParties from "../../hooks/useParties";
+import { useRouter } from "next/router";
 
 interface Props extends React.Attributes {}
 
 export default function IndexPage({}: Props) {
+  const router = useRouter();
+  const { createParty } = useParties();
+  const [isNewPartyLoading, setNewPartyLoading] = React.useState(false);
+
+  const onNewRoomButtonClick = () => {
+    setNewPartyLoading(true);
+
+    createParty().then((party) => {
+      router.push("/parties/[partyId]", `/parties/${party.id}`);
+
+      setNewPartyLoading(false);
+    });
+  };
+
   return (
     <Root>
       <Logo>WeFocus</Logo>
 
-      <Link href="/parties/[partyId]" as="/parties/abc" passHref>
-        <CrateRoomButton icon="plus" large>
-          Create Party
-        </CrateRoomButton>
-      </Link>
+      <CrateRoomButton
+        icon="clean"
+        large
+        loading={isNewPartyLoading}
+        onClick={onNewRoomButtonClick}
+      >
+        Create Party
+      </CrateRoomButton>
 
       <Help>
         <h2>You wanna join to a party?</h2>
@@ -49,7 +67,7 @@ const Logo = styled.h1`
   text-align: center;
 `;
 
-const CrateRoomButton = styled(AnchorButton)`
+const CrateRoomButton = styled(Button)`
   grid-area: create-room;
 `;
 

@@ -58,7 +58,7 @@ export default function PomodoroTimer({
         </MoreMenu>
       ) : null}
 
-      <Phase>{getPhaseText(session)}</Phase>
+      <Phase>{loading ? "LOADING" : getPhaseText(session)}</Phase>
 
       <RemainingTime>{getTimerText(session)}</RemainingTime>
 
