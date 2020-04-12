@@ -1,3 +1,5 @@
-export default function issueAnonymousUser(): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), 2000));
+export default async function issueAnonymousUser(): Promise<void> {
+  await fetch(`${process.env.API_ORIGIN}/api/users/anonymous/`, {
+    method: "POST",
+  });
 }
