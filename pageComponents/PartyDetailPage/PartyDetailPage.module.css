@@ -2,6 +2,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
+  background: linear-gradient(256deg, rgba(201,30,73,1) 0%, rgba(247,109,71,1) 100%);
 }
 
 .video {

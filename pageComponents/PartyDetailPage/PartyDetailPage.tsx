@@ -3,31 +3,32 @@ import PomodoroTimer from "./PomodoroTimer";
 import ShareDialog from "./ShareDialong";
 import VideoConference from "./VideoConference";
 import css from "./PartyDetailPage.module.css";
+import useParty from "../../hooks/useParty";
 
 interface Props extends React.Attributes {
   partyId: string;
 }
 
-export default function PartyDetailPage({}: Props) {
+export default function PartyDetailPage({ partyId }: Props) {
   const [isShareDialogOpen, setShareDialogOpen] = React.useState(false);
+  const { party, isLoading } = useParty(partyId);
 
   return (
     <div className={css.root}>
-      <VideoConference
-        jitsiRoomName="dlk;d;wlekqwe"
-        onParticipantsChange={(participants) => {
-          setShareDialogOpen(participants === 1);
-        }}
-        className={css.video}
-      />
+      {party ? (
+        <VideoConference
+          jitsiRoomName={party.jitsiRoomId}
+          onParticipantsChange={(participants) => {
+            setShareDialogOpen(participants === 1);
+          }}
+          className={css.video}
+        />
+      ) : null}
 
       <PomodoroTimer
         className={css.pomodoro}
-        session={{
-          type: "BREAK",
-          startsAt: new Date(2020, 3, 11, 18, 20, 0),
-          endsAt: new Date(2020, 3, 11, 18, 45, 0),
-        }}
+        session={party?.lastPomodoroSession}
+        loading={isLoading}
       />
 
       <ShareDialog
