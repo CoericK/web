@@ -1,5 +1,5 @@
 import * as React from "react";
-import css from "./VideoConference.module.css";
+import styled from "styled-components";
 
 interface Props extends React.Attributes {
   jitsiRoomName: string;
@@ -56,5 +56,10 @@ export default function VideoConference({
     });
   }, []);
 
-  return <div className={css.root} ref={containerRef} {...props}></div>;
+  return <Root ref={containerRef} {...props}></Root>;
 }
+
+const Root = styled.div`
+  width: 100%;
+  height: 100%;
+`;

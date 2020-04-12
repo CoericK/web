@@ -17,7 +17,7 @@
       "esnext"
     ],
     "allowJs": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "noEmit": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,

@@ -6,8 +6,8 @@ import {
   isPast,
 } from "date-fns";
 import * as React from "react";
+import styled from "styled-components";
 import PomodoroSession from "../../models/PomodoroSession";
-import css from "./PomodoroTimer.module.css";
 
 interface Props extends React.Attributes {
   session?: PomodoroSession;
@@ -23,7 +23,6 @@ export default function PomodoroTimer({
   loading = false,
   onRestartButtonClick,
   onBreakButtonClick,
-  className,
   ...props
 }: Props) {
   const forceRerender = useForceRerender();
@@ -37,9 +36,9 @@ export default function PomodoroTimer({
   }, []);
 
   return (
-    <div className={`${css.root} ${className}`} {...props}>
+    <Root {...props}>
       {session && isPast(session.focusStartsAt) ? (
-        <Popover
+        <MoreMenu
           content={
             <Menu>
               <Menu.Item
@@ -54,27 +53,25 @@ export default function PomodoroTimer({
               />
             </Menu>
           }
-          className={css.menu}
         >
           <Button icon="more" minimal />
-        </Popover>
+        </MoreMenu>
       ) : null}
 
-      <div className={css.type}>{getPhaseText(session)}</div>
+      <Phase>{getPhaseText(session)}</Phase>
 
-      <div className={css["remaining-time"]}>{getTimerText(session)}</div>
+      <RemainingTime>{getTimerText(session)}</RemainingTime>
 
-      <ProgressBar
+      <Progress
         intent={Intent.DANGER}
         stripes={false}
         value={getProgressRate(session)}
-        className={css["progress-bar"]}
       />
 
       {!loading && getPhase(session) === PomodoroSessionPhase.beforeStart ? (
-        <Button className={css["start-button"]}>Start First Session</Button>
+        <StartButton>Start First Session</StartButton>
       ) : null}
-    </div>
+    </Root>
   );
 }
 
@@ -172,3 +169,45 @@ function getPhase(session?: PomodoroSession): PomodoroSessionPhase {
 
   return PomodoroSessionPhase.unknown;
 }
+
+const Root = styled.div`
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+  grid-template-areas: ". phase menu" "remaining-time remaining-time remaining-time" "progress-bar progress-bar progress-bar" "start-button start-button start-button";
+  justify-items: center;
+  align-items: flex-start;
+  min-width: 480px;
+  padding: 16px 32px;
+  background: #000000;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+`;
+
+const MoreMenu = styled(Popover)`
+  grid-area: menu;
+`;
+
+const Phase = styled.div`
+  grid-area: phase;
+  color: white;
+  font-family: Rubik;
+  font-size: 16px;
+  text-align: center;
+`;
+
+const RemainingTime = styled.div`
+  grid-area: remaining-time;
+  color: white;
+  font-family: Rubik;
+  font-size: 48px;
+  text-align: center;
+`;
+
+const Progress = styled(ProgressBar)`
+  grid-area: progress-bar;
+`;
+
+const StartButton = styled(Button)`
+  grid-area: start-button;
+  margin-top: 16px;
+`;

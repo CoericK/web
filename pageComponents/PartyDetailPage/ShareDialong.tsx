@@ -1,6 +1,6 @@
 import { Dialog, InputGroup } from "@blueprintjs/core";
 import * as React from "react";
-import css from "./ShareDialog.module.css";
+import styled from "styled-components";
 
 interface Props extends React.Attributes {
   shareURL: URL;
@@ -18,20 +18,29 @@ export default function ShareDialog({
 }: Props) {
   return (
     <Dialog onClose={onCloseRequest} isOpen={open} {...props}>
-      <div className={css["dialog-content-root"]}>
-        <span className={css.description}>
-          Share this URL with yor friends!
-        </span>
+      <Content>
+        <Description>Share this URL with yor friends!</Description>
 
-        <InputGroup
+        <URLInput
           type="text"
           leftIcon="globe"
           large
           readOnly
           value={shareURL.href}
-          className={css["url-input"]}
         />
-      </div>
+      </Content>
     </Dialog>
   );
 }
+
+const Content = styled.div`
+  padding: 32px;
+`;
+
+const Description = styled.span`
+  font-size: 16px;
+`;
+
+const URLInput = styled(InputGroup)`
+  margin-top: 32px;
+`;

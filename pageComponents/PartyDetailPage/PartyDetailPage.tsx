@@ -1,9 +1,9 @@
 import * as React from "react";
+import styled from "styled-components";
+import useParty from "../../hooks/useParty";
 import PomodoroTimer from "./PomodoroTimer";
 import ShareDialog from "./ShareDialong";
 import VideoConference from "./VideoConference";
-import css from "./PartyDetailPage.module.css";
-import useParty from "../../hooks/useParty";
 
 interface Props extends React.Attributes {
   partyId: string;
@@ -14,22 +14,17 @@ export default function PartyDetailPage({ partyId }: Props) {
   const { party, isLoading } = useParty(partyId);
 
   return (
-    <div className={css.root}>
+    <Root>
       {party ? (
-        <VideoConference
+        <Video
           jitsiRoomName={party.jitsiRoomId}
           onParticipantsChange={(participants) => {
             setShareDialogOpen(participants === 1);
           }}
-          className={css.video}
         />
       ) : null}
 
-      <PomodoroTimer
-        className={css.pomodoro}
-        session={party?.lastPomodoroSession}
-        loading={isLoading}
-      />
+      <Timer session={party?.lastPomodoroSession} loading={isLoading} />
 
       <ShareDialog
         shareURL={
@@ -41,6 +36,29 @@ export default function PartyDetailPage({ partyId }: Props) {
         }
         open={isShareDialogOpen}
       />
-    </div>
+    </Root>
   );
 }
+
+const Root = styled.div`
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    256deg,
+    rgba(201, 30, 73, 1) 0%,
+    rgba(247, 109, 71, 1) 100%
+  );
+`;
+
+const Video = styled(VideoConference)`
+  width: 100%;
+  height: 100%;
+`;
+
+const Timer = styled(PomodoroTimer)`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+`;
