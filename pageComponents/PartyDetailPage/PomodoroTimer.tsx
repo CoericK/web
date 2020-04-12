@@ -73,7 +73,9 @@ export default function PomodoroTimer({
         className={css["progress-bar"]}
       />
 
-      <Button className={css["start-button"]}>Start First Session</Button>
+      {!loading && getPhase(session) === PomodoroSessionPhase.beforeStart ? (
+        <Button className={css["start-button"]}>Start First Session</Button>
+      ) : null}
     </div>
   );
 }
