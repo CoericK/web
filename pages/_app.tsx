@@ -8,6 +8,7 @@ import createParty from "../services/createParty";
 import getMyAnonymousUser from "../services/getMyAnonymousUser";
 import getPartyById from "../services/getPartyById";
 import issueAnonymousUser from "../services/issueAnonymousUser";
+import onPartyChange from "../services/onPartyChange";
 import "../global.css";
 
 export default ({ Component, pageProps }: AppProps) => {
@@ -17,6 +18,7 @@ export default ({ Component, pageProps }: AppProps) => {
       getMyAnonymousUser,
       getPartyById,
       issueAnonymousUser,
+      onPartyChange,
     }),
     []
   );
