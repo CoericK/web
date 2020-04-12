@@ -1,9 +1,11 @@
 import * as React from "react";
+import createParty from "../services/createParty";
 import getMyAnonymousUser from "../services/getMyAnonymousUser";
 import getPartyById from "../services/getPartyById";
 import issueAnonymousUser from "../services/issueAnonymousUser";
 
 interface Services {
+  createParty: typeof createParty;
   getMyAnonymousUser: typeof getMyAnonymousUser;
   getPartyById: typeof getPartyById;
   issueAnonymousUser: typeof issueAnonymousUser;
