@@ -11,7 +11,12 @@ interface Props extends React.Attributes {
 
 export default function PartyDetailPage({ partyId }: Props) {
   const [isShareDialogOpen, setShareDialogOpen] = React.useState(false);
-  const { party, isLoading } = useParty(partyId);
+  const {
+    party,
+    isLoading,
+    startPomodoroSession,
+    restartPomodoroSession,
+  } = useParty(partyId);
 
   return (
     <Root>
@@ -24,7 +29,12 @@ export default function PartyDetailPage({ partyId }: Props) {
         />
       ) : null}
 
-      <Timer session={party?.lastPomodoroSession} loading={isLoading} />
+      <Timer
+        session={party?.lastPomodoroSession ?? undefined}
+        loading={isLoading}
+        onStartButtonClick={startPomodoroSession}
+        onRestartButtonClick={restartPomodoroSession}
+      />
 
       <ShareDialog
         shareURL={

@@ -12,6 +12,7 @@ import PomodoroSession from "../../models/PomodoroSession";
 interface Props extends React.Attributes {
   session?: PomodoroSession;
   loading?: boolean;
+  onStartButtonClick?: () => void;
   onRestartButtonClick?: () => void;
   className?: string;
   style?: React.CSSProperties;
@@ -20,6 +21,7 @@ interface Props extends React.Attributes {
 export default function PomodoroTimer({
   session,
   loading = false,
+  onStartButtonClick,
   onRestartButtonClick,
   ...props
 }: Props) {
@@ -41,7 +43,7 @@ export default function PomodoroTimer({
             <Menu>
               <Menu.Item
                 icon="predictive-analysis"
-                onClick={() => {}}
+                onClick={onRestartButtonClick}
                 text="Restart focus session"
               />
             </Menu>
@@ -62,7 +64,9 @@ export default function PomodoroTimer({
       />
 
       {!loading && getPhase(session) === PomodoroSessionPhase.beforeStart ? (
-        <StartButton>Start First Session</StartButton>
+        <StartButton onClick={onStartButtonClick}>
+          Start First Session
+        </StartButton>
       ) : null}
     </Root>
   );

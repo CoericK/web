@@ -1,9 +1,10 @@
+import constate from "constate";
 import * as React from "react";
 import AuthenticationToken from "../models/AuthenticationToken";
-// import { createGetMyAnonymousUser } from "../services/getMyAnonymousUser";
+import { createGetMyAnonymousUser } from "../services/getMyAnonymousUser";
 import issueAnonymousUserToken from "../services/issueAnonymousUserToken";
 
-export default function useAuthentication() {
+const [Provider, useAuthentication] = constate(() => {
   const [token, setToken] = React.useState<AuthenticationToken | null>(null);
   const [isLoading, setLoading] = React.useState(true);
 
@@ -15,9 +16,15 @@ export default function useAuthentication() {
         token = await issueAnonymousUserToken();
 
         saveAuthenticationToken(token);
-      }
+      } else {
+        const user = await createGetMyAnonymousUser({ token: token! })();
 
-      // const user = await createGetMyAnonymousUser({ token: token! })();
+        if (!user) {
+          token = await issueAnonymousUserToken();
+
+          saveAuthenticationToken(token);
+        }
+      }
 
       setToken(token);
       setLoading(false);
@@ -28,7 +35,11 @@ export default function useAuthentication() {
     token,
     isLoading,
   };
-}
+});
+
+export const AuthenticationProvider = Provider;
+
+export default useAuthentication;
 
 function loadAuthenticationToken(): AuthenticationToken | null {
   return globalThis.localStorage.getItem("wefocus_authentication_token") as any;

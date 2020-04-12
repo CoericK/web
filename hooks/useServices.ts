@@ -16,3 +16,37 @@ export default function useServices() {
 }
 
 export const ServicesContext = React.createContext<Services>(null as any);
+
+// function use() {
+//   const cont = React.useMemo(() => ({ token: null }), []);
+
+//   const setToken = (token: string) => {
+//     cont.token = token;
+//   };
+
+//   return {
+//     setToken,
+//   };
+// }
+
+// function useServices() {
+//   const container = React.useMemo(
+//     () => ({
+//       serviceA: () => {},
+//       serviceB: () => {},
+//       serviceC: () => {},
+//     }),
+//     []
+//   );
+
+//   const setToken = (token: string) => {
+//     container.serviceA = createServiceA({ token });
+//     container.serviceB = createServiceB({ token });
+//     container.serviceC = createServiceC({ token });
+//   };
+
+//   return {
+//     ...container,
+//     setToken,
+//   };
+// }

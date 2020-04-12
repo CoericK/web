@@ -1,14 +1,17 @@
-import useServices from "./useServices";
 import Party from "../models/Party";
+import { createCreateParty } from "../services/createParty";
+import useAuthentication from "./useAuthentication";
 
 export default function useParties(): {
   createParty: () => Promise<Party>;
 } {
-  const { createParty } = useServices();
+  const { token } = useAuthentication();
+
+  // console.log(token);
 
   return {
     createParty: async () => {
-      return await createParty();
+      return await createCreateParty({ token })();
     },
   };
 }

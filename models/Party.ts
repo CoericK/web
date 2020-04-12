@@ -5,7 +5,7 @@ export default interface Party {
   title: string;
   jitsiRoomId: string;
   members: unknown[];
-  lastPomodoroSession: PomodoroSession;
+  lastPomodoroSession: PomodoroSession | null;
 }
 
 export type PartyId = string;

@@ -17,10 +17,14 @@ export function createCreatePomodoroSession({
   ): Promise<PomodoroSession> {
     const response = await fetch(
       restart
-        ? `${process.env.API_ORIGIN}/parties/restart_pomodoro_timer/`
-        : `${process.env.API_ORIGIN}/parties/start_pomodoro_timer/`,
+        ? `${process.env.API_ORIGIN}/api/parties/restart_pomodoro_timer/`
+        : `${process.env.API_ORIGIN}/api/parties/start_pomodoro_timer/`,
       {
-        headers: { authorization: token! },
+        method: "POST",
+        headers: {
+          authorization: `Token ${token}`,
+          "content-type": "application/json",
+        },
         body: JSON.stringify({
           slug: partyId,
           focus_duration: 25,
