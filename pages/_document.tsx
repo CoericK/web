@@ -29,6 +29,10 @@ export default class extends Document {
             property="og:image"
             content="https://app.wefoc.us/common_thumbnail.jpg"
           />
+          <meta
+            property="og:description"
+            content="WeFocus is virtual co-working places that enhances your productivity. Jump on a virtual co-working and keep your great progress!"
+          />
         </Head>
 
         <body>

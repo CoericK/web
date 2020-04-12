@@ -29,31 +29,36 @@ export default function VideoConference({
   }, []);
 
   React.useEffect(() => {
-    const jitsi = new (globalThis as any).JitsiMeetExternalAPI("meet.jit.si", {
-      roomName: jitsiRoomName,
-      parentNode: containerRef.current,
-      configOverwrite: {
-        enableCalendarIntegration: false,
-      },
-      interfaceConfigOverwrite: {
-        DEFAULT_BACKGROUND:
-          "linear-gradient(256deg, rgba(201,30,73,1) 0%, rgba(247,109,71,1) 100%)",
-        DISABLE_VIDEO_BACKGROUND: false,
-        TOOLBAR_BUTTONS: [
-          "microphone",
-          "camera",
-          "desktop",
-          "videoquality",
-          "settings",
-        ],
-        SETTINGS_SECTIONS: ["devices"],
-        DISABLE_FOCUS_INDICATOR: true,
-        DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
-        CONNECTION_INDICATOR_DISABLED: true,
-        VIDEO_QUALITY_LABEL_DISABLED: true,
-        DISABLE_PRESENCE_STATUS: false,
-      },
-    });
+    const jitsi = new (globalThis as any).JitsiMeetExternalAPI(
+      process.env.JITSI_HOST,
+      {
+        roomName: jitsiRoomName,
+        parentNode: containerRef.current,
+        configOverwrite: {
+          enableCalendarIntegration: false,
+        },
+        interfaceConfigOverwrite: {
+          DEFAULT_BACKGROUND:
+            "linear-gradient(256deg, rgba(201,30,73,1) 0%, rgba(247,109,71,1) 100%)",
+          DISABLE_VIDEO_BACKGROUND: false,
+          TOOLBAR_BUTTONS: [
+            "microphone",
+            "camera",
+            "desktop",
+            "videoquality",
+            "settings",
+          ],
+          SETTINGS_SECTIONS: ["devices"],
+          DISABLE_FOCUS_INDICATOR: true,
+          DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
+          CONNECTION_INDICATOR_DISABLED: true,
+          VIDEO_QUALITY_LABEL_DISABLED: true,
+          DISABLE_PRESENCE_STATUS: false,
+          SHOW_JITSI_WATERMARK: false,
+          SHOW_WATERMARK_FOR_GUESTS: false,
+        },
+      }
+    );
 
     jitsi.executeCommand("displayName", user?.name ?? "No Name");
     jitsi.executeCommand("subject", " ");
