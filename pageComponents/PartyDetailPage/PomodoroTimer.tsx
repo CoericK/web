@@ -36,8 +36,6 @@ export default function PomodoroTimer({
     return () => clearInterval(intervalId);
   }, []);
 
-  console.log(session);
-
   return (
     <div className={`${css.root} ${className}`} {...props}>
       {session && isPast(session.focusStartsAt) ? (
