@@ -5,6 +5,10 @@ body {
   font-family: Rubik, -apple-system, sans-serif;
 }
 
+html {
+  background: black;
+}
+
 * {
   box-sizing: border-box;
 }
