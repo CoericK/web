@@ -1,4 +1,5 @@
 import * as React from "react";
+import PomodoroTimer from "./PomodoroTimer";
 import ShareDialog from "./ShareDialong";
 import VideoConference from "./VideoConference";
 import css from "./PartyDetailPage.module.css";
@@ -13,11 +14,20 @@ export default function PartyDetailPage({}: Props) {
   return (
     <div className={css.root}>
       <VideoConference
-        jitsiRoomName="qweqwee"
+        jitsiRoomName="dlk;d;wlekqwe"
         onParticipantsChange={(participants) => {
           setShareDialogOpen(participants === 1);
         }}
         className={css.video}
+      />
+
+      <PomodoroTimer
+        className={css.pomodoro}
+        session={{
+          type: "BREAK",
+          startsAt: new Date(2020, 3, 11, 18, 20, 0),
+          endsAt: new Date(2020, 3, 11, 18, 45, 0),
+        }}
       />
 
       <ShareDialog
